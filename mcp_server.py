@@ -1,27 +1,32 @@
 import httpx
 from mcp.server import FastMCP
 
-#initialize the server
+# Initialize the server
+mcp = FastMCP("Nitish's Server")
 
-mcp = FastMCP(
-    "Nitish's Server"
-)
-
+# Define the tool with parameters and proper return format
 @mcp.tool(
-    name= "Get the BMI of the person",
-    description="use this to get the BMI of the person"
+    name="get_bmi",
+    description="Calculate the BMI of a person given their height and weight",
+    parameters={
+        "height": {"type": "float", "description": "Height of the person in centimeters"},
+        "weight": {"type": "float", "description": "Weight of the person in kilograms"}
+    }
 )
-def get_bmi(height:float,weight:float)->float:
+def get_bmi(height: float, weight: float) -> dict:
     """
     Args:
-        height (float): height of the person
-        weight (float): weight of the person
+        height (float): Height of the person in centimeters
+        weight (float): Weight of the person in kilograms
 
     Returns:
-        float: BMI of the person
+        dict: BMI of the person in MCP-compatible format
     """
-    height_m = height / 100
-    return weight / (height_m**2)
+    height_m = height / 100  # Convert cm to meters
+    bmi = weight / (height_m ** 2)
+    return {
+        "content": [{"type": "text", "text": str(bmi)}]
+    }
 
 if __name__ == "__main__":
     mcp.run()
