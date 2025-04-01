@@ -8,10 +8,6 @@ mcp = FastMCP("Nitish's Server")
 @mcp.tool(
     name="get_bmi",
     description="Calculate the BMI of a person given their height and weight",
-    parameters={
-        "height": {"type": "float", "description": "Height of the person in centimeters"},
-        "weight": {"type": "float", "description": "Weight of the person in kilograms"}
-    }
 )
 def get_bmi(height: float, weight: float) -> dict:
     """
